@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"sync"
@@ -157,7 +158,9 @@ func main() {
 	router.PathPrefix("/debug/pprof/").Handler(http.DefaultServeMux)
 	router.PathPrefix("/pprof/").Handler(http.StripPrefix("/pprof", pprofRouter))
 
-	http.ListenAndServe(":8888", router)
+	addr := os.Args[1]
+	fmt.Printf("listening on %s \n", addr)
+	http.ListenAndServe(addr, router)
 }
 
 type GoFlags struct {
